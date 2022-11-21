@@ -3,7 +3,7 @@ from os.path import join, dirname, abspath
 import pytest
 import numpy as np
 
-from bids.layout import BIDSLayout
+from bids.layout import BIDSLayoutV2 as BIDSLayout
 from bids.tests import get_test_data_path
 from bids.variables import (DenseRunVariable, SparseRunVariable,
                             merge_collections)
@@ -12,7 +12,7 @@ from bids.variables.entities import RunInfo
 @pytest.fixture(scope="module")
 def run_coll():
     path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(path)
+    layout = BIDSLayout(path, validate=False)
     # Limit to a few subjects to reduce test running time
     return layout.get_collections('run', types=['events'], merge=True,
                                   scan_length=480, subject=['01', '02', '04'])
@@ -20,7 +20,7 @@ def run_coll():
 @pytest.fixture(scope="module")
 def run_coll_bad_length():
     path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(path)
+    layout = BIDSLayout(path, validate=False)
     # Limit to a few subjects to reduce test running time
     return layout.get_collections('run', types=['events'], merge=True,
                                   scan_length=480.1, subject=['01', '02', '04'])
@@ -29,7 +29,7 @@ def run_coll_bad_length():
 @pytest.fixture(scope="module")
 def run_coll_list():
     path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(path)
+    layout = BIDSLayout(path, validate=False)
     return layout.get_collections('run', types=['events'], merge=False,
                                   scan_length=480, subject=['01', '02', '04'])
 
@@ -38,7 +38,7 @@ def run_coll_list():
 def run_coll_derivs():
     path = join(get_test_data_path(), 'ds005')
     deriv_path = join(get_test_data_path(), 'ds005', 'derivatives', 'fmriprep')
-    layout = BIDSLayout(path, derivatives=deriv_path)
+    layout = BIDSLayout(path, derivatives=deriv_path, validate=False)
     # Limit to a few subjects to reduce test running time
     return layout.get_collections('run', types=['events', 'regressors'], merge=False,
                                   scan_length=480, subject=['01', '02'])

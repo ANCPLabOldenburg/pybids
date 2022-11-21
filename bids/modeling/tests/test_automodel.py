@@ -2,7 +2,7 @@ from os.path import join
 from itertools import chain
 from bids.modeling.auto_model import auto_model
 from bids.modeling import BIDSStatsModelsGraph
-from bids.layout import BIDSLayout
+from bids.layout import BIDSLayoutV2 as BIDSLayout
 from bids.tests import get_test_data_path
 import pytest
 
@@ -10,7 +10,7 @@ import pytest
 @pytest.fixture
 def model():
     layout_path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(layout_path)
+    layout = BIDSLayout(layout_path, validate=False)
 
     models = auto_model(layout, scan_length=480, one_vs_rest=True)
 
@@ -25,7 +25,7 @@ def test_automodel_valid(model):
 
 def test_automodel_runs(model):
     layout_path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(layout_path)
+    layout = BIDSLayout(layout_path, validate=False)
 
     # Test to make sure an analaysis can be setup from the generated model
     graph = BIDSStatsModelsGraph(layout, model)

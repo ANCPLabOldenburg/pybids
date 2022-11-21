@@ -1,4 +1,4 @@
-from bids.layout import BIDSLayout
+from bids.layout import BIDSLayoutV2 as BIDSLayout
 from bids.variables.entities import RunNode, Node, NodeIndex
 from bids.variables import load_variables
 from bids.variables import BIDSRunVariableCollection
@@ -10,7 +10,7 @@ from bids.tests import get_test_data_path
 @pytest.fixture(scope="module")
 def layout1():
     path = join(get_test_data_path(), 'ds005')
-    layout = BIDSLayout(path)
+    layout = BIDSLayout(path, validate=False)
     return layout
 
 

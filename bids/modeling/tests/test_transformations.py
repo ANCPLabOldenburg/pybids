@@ -3,7 +3,7 @@ from bids.modeling import transformations as transform
 from bids.variables import SparseRunVariable, DenseRunVariable
 from bids.variables.entities import RunInfo
 from bids.variables.collections import BIDSRunVariableCollection
-from bids.layout import BIDSLayout
+from bids.layout import BIDSLayoutV2 as BIDSLayout
 import math
 import pytest
 from os.path import join, sep
@@ -30,7 +30,7 @@ cached_collections = {}
 def collection():
     if 'ds005' not in cached_collections:
         layout_path = join(get_test_data_path(), 'ds005')
-        layout = BIDSLayout(layout_path)
+        layout = BIDSLayout(layout_path, validate=False)
         cached_collections['ds005'] = layout.get_collections(
             'run',
             types=['events'],
